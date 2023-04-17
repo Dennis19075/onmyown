@@ -36,6 +36,24 @@ namespace Payable.API.Controllers
             return Ok(outcomes);
         }
 
+        //GetOutcomesByDay
+        [HttpGet("[action]/{createdAt}", Name = "GetOutcomesByDay")]
+        [ProducesResponseType(typeof(IEnumerable<Outcomes>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<Outcomes>>> GetOutcomesByDay(string createdAt)
+        {
+            var outcomes = await _repository.GetOutcomesByDay(createdAt);
+            return Ok(outcomes);
+        }
+
+        //GetOutcomesBySearchBar
+        [HttpGet("[action]/{createdAt}/{description}", Name = "GetOutcomeBySearch")]
+        [ProducesResponseType(typeof(IEnumerable<Outcomes>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<Outcomes>>> GetOutcomeBySearch(string createdAt, string description)
+        {
+            var outcomes = await _repository.GetOutcomeBySearch(createdAt, description);
+            return Ok(outcomes);
+        }
+
         [HttpGet("[action]", Name = "GetOutcomesByWeek")]
         [ProducesResponseType(typeof(IEnumerable<double>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<double>>> GetOutcomesByWeek()

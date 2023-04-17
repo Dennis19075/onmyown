@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Payable.API.Data;
@@ -28,7 +29,6 @@ namespace Payable.API.Repositories
 
         public async Task<IEnumerable<Outcomes>> GetOutcomesByMonthAndYear(string createdAt)
         {
-
             var dateTime = Convert.ToDateTime(createdAt);
 
             var first_date = new DateTime(dateTime.Year, dateTime.Month, 1);
@@ -37,6 +37,35 @@ namespace Payable.API.Repositories
             return await _context
                 .Outcomes
                 .Find(x => x.createdAt >= first_date && x.createdAt < last_date)
+                .SortBy(p => p.createdAt)
+                .ToListAsync(); //Date Filter
+        }
+
+        public async Task<IEnumerable<Outcomes>> GetOutcomesByDay(string createdAt)
+        {
+            var dateTime = Convert.ToDateTime(createdAt);
+            var first_date = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day);
+
+            var last_date = first_date.AddDays(1);
+
+            return await _context
+                .Outcomes
+                .Find(x => x.createdAt >= first_date && x.createdAt < last_date)
+                .SortBy(p => p.createdAt)
+                .ToListAsync(); //Date Filter
+        }
+
+        public async Task<IEnumerable<Outcomes>> GetOutcomeBySearch(string createdAt, string description)
+        {
+
+            var dateTime = Convert.ToDateTime(createdAt);
+
+            var first_date = new DateTime(dateTime.Year, dateTime.Month, 1);
+            var last_date = first_date.AddMonths(1);
+
+            return await _context
+                .Outcomes
+                .Find(x => (x.createdAt >= first_date && x.createdAt < last_date) && (Regex.IsMatch(x.description, Regex.Escape(description), RegexOptions.IgnoreCase)))
                 .SortBy(p => p.createdAt)
                 .ToListAsync(); //Date Filter
         }

@@ -7,6 +7,8 @@ namespace Payable.API.Repositories
 	{
         Task<IEnumerable<Outcomes>> GetOutcomes();
         Task<IEnumerable<Outcomes>> GetOutcomesByMonthAndYear(string createdAt);
+        Task<IEnumerable<Outcomes>> GetOutcomesByDay(string createdAt);
+        Task<IEnumerable<Outcomes>> GetOutcomeBySearch(string createdAt, string description);
         Task<IEnumerable<double>> GetOutcomesByWeek();
         Task<Outcomes> GetOutcome(string id);
         Task CreateOutcomes(Outcomes outcomes);
