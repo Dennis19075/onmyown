@@ -25,6 +25,9 @@ namespace Payable.API.Entities
         [BsonElement("expense")]
         public double expense { get; set; }
 
+        [BsonElement("exchange")]
+        public string exchange { get; set; }
+
         [BsonElement("userId")]
         [BsonRepresentation(BsonType.ObjectId)]
         public string userId { get; set; }
