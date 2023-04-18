@@ -27,16 +27,28 @@ namespace Payable.API.Repositories
 
         }
 
-        public async Task<IEnumerable<Outcomes>> GetOutcomesByMonthAndYear(string createdAt)
+        public async Task<IEnumerable<Outcomes>> GetOutcomesByFilters(string createdAt, string category)
         {
             var dateTime = Convert.ToDateTime(createdAt);
 
             var first_date = new DateTime(dateTime.Year, dateTime.Month, 1);
             var last_date = first_date.AddMonths(1);
 
+            if (category.Equals("all"))
+            {
+                return await _context
+                .Outcomes
+                .Find(x =>
+                    (x.createdAt >= first_date && x.createdAt < last_date))
+                .SortBy(p => p.createdAt)
+                .ToListAsync(); //Date Filter
+            }
+
             return await _context
                 .Outcomes
-                .Find(x => x.createdAt >= first_date && x.createdAt < last_date)
+                .Find(x =>
+                    (x.createdAt >= first_date && x.createdAt < last_date) &&
+                        (x.category.Equals(category)))
                 .SortBy(p => p.createdAt)
                 .ToListAsync(); //Date Filter
         }
@@ -55,7 +67,7 @@ namespace Payable.API.Repositories
                 .ToListAsync(); //Date Filter
         }
 
-        public async Task<IEnumerable<Outcomes>> GetOutcomeBySearch(string createdAt, string description)
+        public async Task<IEnumerable<Outcomes>> GetOutcomeBySearch(string createdAt, string? description)
         {
 
             var dateTime = Convert.ToDateTime(createdAt);
@@ -63,11 +75,22 @@ namespace Payable.API.Repositories
             var first_date = new DateTime(dateTime.Year, dateTime.Month, 1);
             var last_date = first_date.AddMonths(1);
 
+            if (description.Equals("none"))
+            //if (String.IsNullOrEmpty(description))
+            {
+                return await _context
+                .Outcomes
+                .Find(x => (x.createdAt >= first_date && x.createdAt < last_date))
+                .SortBy(p => p.createdAt)
+                .ToListAsync(); //Date Filter
+            }
+            
             return await _context
                 .Outcomes
                 .Find(x => (x.createdAt >= first_date && x.createdAt < last_date) && (Regex.IsMatch(x.description, Regex.Escape(description), RegexOptions.IgnoreCase)))
                 .SortBy(p => p.createdAt)
                 .ToListAsync(); //Date Filter
+
         }
 
         public async Task<IEnumerable<double>> GetOutcomesByWeek()
@@ -75,7 +98,7 @@ namespace Payable.API.Repositories
             var weeks = new double[7];
 
             DateTime thisDay = DateTime.Today;
-            var currentMonthList = await this.GetOutcomesByMonthAndYear(thisDay.ToString());
+            var currentMonthList = await this.GetOutcomesByFilters(thisDay.ToString(), "all");
 
             foreach (Outcomes element in currentMonthList)
             {

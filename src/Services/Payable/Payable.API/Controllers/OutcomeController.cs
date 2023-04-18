@@ -28,11 +28,13 @@ namespace Payable.API.Controllers
             return Ok(outcomes);
         }
 
-        [HttpGet("[action]/{createdAt}", Name = "GetOutcomesByMonthAndYear")]
+        //[HttpGet("GetValues")] Public ActionResult GetValues(Datetime? createdDate, string? description)
+
+        [HttpGet("[action]/{createdAt}/{category}", Name = "GetOutcomesByFilters")]
         [ProducesResponseType(typeof(IEnumerable<Outcomes>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IEnumerable<Outcomes>>> GetOutcomesByMonthAndYear(string createdAt)
+        public async Task<ActionResult<IEnumerable<Outcomes>>> GetOutcomesByFilters(string createdAt, string category)
         {
-            var outcomes = await _repository.GetOutcomesByMonthAndYear(createdAt);
+            var outcomes = await _repository.GetOutcomesByFilters(createdAt, category);
             return Ok(outcomes);
         }
 
@@ -46,9 +48,9 @@ namespace Payable.API.Controllers
         }
 
         //GetOutcomesBySearchBar
-        [HttpGet("[action]/{createdAt}/{description}", Name = "GetOutcomeBySearch")]
-        [ProducesResponseType(typeof(IEnumerable<Outcomes>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IEnumerable<Outcomes>>> GetOutcomeBySearch(string createdAt, string description)
+        //[HttpGet("[action]/{createdAt}/{description?}", Name = "GetOutcomeBySearch")]
+        [HttpGet("GetOutcomeBySearch/{createdAt}")]
+        public async Task<ActionResult> GetOutcomeBySearchAsync(string createdAt, string? description)
         {
             var outcomes = await _repository.GetOutcomeBySearch(createdAt, description);
             return Ok(outcomes);
