@@ -44,12 +44,28 @@ namespace Payable.API.Controllers
             return Ok(income);
         }
 
+        [HttpGet("[action]/{createdAt}/{category}", Name = "GetIncomesByFilters")]
+        [ProducesResponseType(typeof(IEnumerable<Incomes>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<Incomes>>> GetIncomesByFilters(string createdAt, string category)
+        {
+            var incomes = await _repository.GetIncomesByFilters(createdAt, category);
+            return Ok(incomes);
+        }
+
+        [HttpGet("[action]", Name = "GetIncomesByWeek")]
+        [ProducesResponseType(typeof(IEnumerable<double>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<double>>> GetIncomesByWeek()
+        {
+            var incomes = await _repository.GetIncomesByWeek();
+            return Ok(incomes);
+        }
+
         [HttpPost]
         [ProducesResponseType(typeof(Incomes), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<Incomes>> CreateIncomes([FromBody] Incomes income)
         {
             await _repository.CreateIncomes(income);
-            return CreatedAtRoute("CreateIncomes", new { id = income.Id }, income);
+            return CreatedAtRoute("GetIncome", new { id = income.Id }, income);
         }
 
         [HttpPut]

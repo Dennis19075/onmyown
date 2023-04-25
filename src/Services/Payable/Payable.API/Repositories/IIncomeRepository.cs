@@ -7,8 +7,10 @@ namespace Payable.API.Repositories
 	{
         Task<IEnumerable<Incomes>> GetIncomes();
         Task<Incomes> GetIncome(string id);
-        Task CreateIncomes(Incomes outcomes);
-        Task<bool> UpdateIncomes(Incomes outcomes);
+        Task<IEnumerable<Incomes>> GetIncomesByFilters(string createdAt, string category);
+        Task<IEnumerable<double>> GetIncomesByWeek();
+        Task CreateIncomes(Incomes incomes);
+        Task<bool> UpdateIncomes(Incomes incomes);
         Task<bool> DeleteIncomes(string id);
     }
 }
