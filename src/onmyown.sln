@@ -3,15 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 25.0.1704.0
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{1671FF4D-C07E-41CD-83A5-ACE80800746B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payable", "Payable", "{A1878CCD-7AF9-46E7-9835-21CC32FCDE58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payable.API", "Services\Payable\Payable.API\Payable.API.csproj", "{1C0AA5F5-1215-4EC4-85D0-C78295A32306}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1C0AA5F5-1215-4EC4-85D0-C78295A32306}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C0AA5F5-1215-4EC4-85D0-C78295A32306}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C0AA5F5-1215-4EC4-85D0-C78295A32306}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C0AA5F5-1215-4EC4-85D0-C78295A32306}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B5439677-8A9E-45AA-AFFC-18ADA2E258FD}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A1878CCD-7AF9-46E7-9835-21CC32FCDE58} = {1671FF4D-C07E-41CD-83A5-ACE80800746B}
+		{1C0AA5F5-1215-4EC4-85D0-C78295A32306} = {A1878CCD-7AF9-46E7-9835-21CC32FCDE58}
 	EndGlobalSection
 EndGlobal
