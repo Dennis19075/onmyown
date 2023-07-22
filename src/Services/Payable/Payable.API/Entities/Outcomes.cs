@@ -32,6 +32,9 @@ namespace Payable.API.Entities
         [BsonRepresentation(BsonType.ObjectId)]
         public string userId { get; set; }
 
+        [BsonElement("enable")]
+        public Boolean enable { get; set; }
+
         public Outcomes()
 		{
 		}

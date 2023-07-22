@@ -67,30 +67,22 @@ namespace Payable.API.Repositories
                 .ToListAsync(); //Date Filter
         }
 
-        public async Task<IEnumerable<Outcomes>> GetOutcomeBySearch(string createdAt, string? description)
+        public async Task<IEnumerable<Outcomes>> GetOutcomeListByWeek(string createdAt, string category, int week)
         {
+            //TODO: define a list depending of the outcome list length. For now, we are defining as 100
+            List<Outcomes> outcomeList = new List<Outcomes>();
+            //var outcomeList = new Outcomes[100];
+            var currentMonthList = await this.GetOutcomesByFilters(createdAt, category);
 
-            var dateTime = Convert.ToDateTime(createdAt);
-
-            var first_date = new DateTime(dateTime.Year, dateTime.Month, 1);
-            var last_date = first_date.AddMonths(1);
-
-            if (description.Equals("none"))
-            //if (String.IsNullOrEmpty(description))
+            foreach (Outcomes element in currentMonthList)
             {
-                return await _context
-                .Outcomes
-                .Find(x => (x.createdAt >= first_date && x.createdAt < last_date))
-                .SortBy(p => p.createdAt)
-                .ToListAsync(); //Date Filter
+                if (week == (GetWeekNumberOfMonth(element.createdAt)))
+                {
+                    outcomeList.Add(element);
+                }
             }
-            
-            return await _context
-                .Outcomes
-                .Find(x => (x.createdAt >= first_date && x.createdAt < last_date) && (Regex.IsMatch(x.description, Regex.Escape(description), RegexOptions.IgnoreCase)))
-                .SortBy(p => p.createdAt)
-                .ToListAsync(); //Date Filter
 
+            return outcomeList;
         }
 
         public async Task<IEnumerable<double>> GetOutcomesByWeek()
@@ -112,7 +104,7 @@ namespace Payable.API.Repositories
 
         }
 
-        public static int GetWeekNumberOfMonth(DateTime date)
+        private static int GetWeekNumberOfMonth(DateTime date)
         {
             DateTime beginningOfMonth = new DateTime(date.Year, date.Month, 1);
 

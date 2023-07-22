@@ -68,7 +68,7 @@ namespace Payable.API.Controllers
             return CreatedAtRoute("GetIncome", new { id = income.Id }, income);
         }
 
-        [HttpPut]
+        [HttpPut("{id:length(24)}", Name = "UpdateIncomes")]
         [ProducesResponseType(typeof(Incomes), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateIncome([FromBody] Incomes income)
         {

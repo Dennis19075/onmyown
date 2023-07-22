@@ -1,7 +1,7 @@
 ﻿using System;
 using MongoDB.Driver;
 using Payable.API.Entities;
-
+        
 namespace Payable.API.Data
 {
 	public class OutcomeContext : IOutcomeContext
@@ -18,3 +18,4 @@ namespace Payable.API.Data
     }
 }
 
+            
